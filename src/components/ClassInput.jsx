@@ -1,6 +1,6 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from "react";
-import { Count } from "./Count";
+import { Count } from "./Count.jsx";
 
 class ClassInput extends Component {
   constructor(props) {
