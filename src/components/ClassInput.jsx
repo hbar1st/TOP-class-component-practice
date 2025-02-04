@@ -1,6 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from "react";
-import { Count } from "./Count.jsx";
+import Count from "./Count.jsx";
+import Todo from "./Todo.jsx";
 
 class ClassInput extends Component {
   constructor(props) {
@@ -14,10 +15,23 @@ class ClassInput extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.handleResubmit = this.handleResubmit.bind(this);
   }
 
+  handleResubmit(e, todo, todoIndex) {
+    console.log(todo, todoIndex);
+    this.setState((state) => ({
+      ...state,
+      todos: this.state.todos.map((t, index) => {
+        if (index == todoIndex) {
+          return todo;
+        } else {
+          return t;
+        }
+      }),
+    }));
+  }
   handleDelete(e, todo) {
-    e.preventDefault();
     let newObj = {
       ...this.state,
       todos: this.state.todos.filter((t) => t !== todo),
@@ -61,18 +75,15 @@ class ClassInput extends Component {
         <h4>All the tasks!</h4>
         {/* The list of all the To-Do's, displayed */}
         <ul>
-          {this.state.todos.map((todo) => (
-            <>
-              <li key={todo}>
-                {todo}
-                <button
-                  type="button"
-                  onClick={(e) => this.handleDelete(e, todo)}
-                >
-                  Delete
-                </button>
-              </li>
-            </>
+          {this.state.todos.map((todo, index) => (
+            <Todo
+              todo={todo}
+              key={todo}
+              index={index}
+              handleEdit={this.handleEdit}
+              handleDelete={this.handleDelete}
+              handleResubmit={this.handleResubmit}
+            />
           ))}
         </ul>
       </section>
